@@ -1,0 +1,264 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+
+*, *:before, *:after{
+    box-sizing: border-box;
+    font-family: Montserrat;
+}
+
+html, body{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* Navbar */
+
+.navbar-brand{
+    font-family: Montserrat;
+    font-size: larger;
+    font-weight: bolder;
+    color: yellowgreen;
+}
+
+.navbar-brand:hover{
+    color: yellowgreen;
+}
+
+.nav-link{
+    font-family: Montserrat;
+    color: #008080;
+}
+
+.nav-link:hover{
+    color: #008080;
+    text-decoration: none;
+    font-weight: bolder;
+}
+
+.navbar-toggler-icon .fa-bars{
+    font-size: 28px;
+    color: teal;
+}
+
+.navbar .active{
+    border-bottom: solid 2px teal;
+}
+
+/* Home */
+.home{
+    margin-top: 1rem;
+    text-align: center;
+    display: block;
+    width: 100%;
+}
+
+/* Home up */
+.page-title{
+    font-family: "Dancing Script";
+    font-size: 3rem;
+    padding: 4rem 0 1rem 0;
+    text-align: center;
+}
+
+.how-to-use{
+    background-color: teal;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bolder;
+    margin-top: 1rem;
+    padding: 0.7rem 1.7rem;
+}
+
+.how-to-use a, .how-to-use a:hover{
+    color: white;
+    text-decoration: none;
+    letter-spacing: 0.2rem;
+}
+
+.how-to-use:hover{
+    background-color: rgb(55, 179, 179);
+    box-shadow: grey;
+}
+
+/* Home down */
+.home-down{
+    width: 70%;
+    margin:auto;
+    background-color: teal;
+    margin-top: 10rem;
+    padding: 1.5rem 0rem;
+    border-radius: 20px;
+}
+
+form #method, form #upload-show, form #submit{
+    background-color: white;
+    border-radius: 7px;
+    border: none;
+    font-family: inherit;
+    width: 25%;
+    padding: 0.5rem 0.3rem;
+    margin: 0 0.3rem;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+form #upload-show{
+    cursor: pointer;
+    display: inline-block;
+}
+
+form #submit{
+    cursor: pointer;
+}
+
+form #file-upload{
+    height: 0px;
+    width: 0px;
+    overflow: hidden;
+}
+
+form #upload-show:hover, form #submit:hover{
+    box-shadow: 5px 5px 5px rgb(1, 94, 94);
+}
+
+input[type="file"] {
+    display: none;
+}
+
+/* Statistics */
+.statistics .page-title, .classification .page-title{
+    margin: 7rem 0 4rem 0;
+}
+
+.before-submit{
+    text-align: center;
+    padding-bottom: 3rem;
+}
+
+.before-submit a{
+    text-decoration: none;
+    color: black;
+    font-weight: bolder;
+}
+
+.after-submit{
+    display: none;
+}
+
+table{
+    margin: auto;
+    text-align: center;
+    border-collapse: collapse;
+    border-bottom: 2px solid teal;
+    box-shadow: 0 0 20px rgba(0,0,0,0.15);
+    min-width: 360px;
+}
+
+table thead{
+    background-color: teal;
+}
+
+table th, table td{
+    padding: 0.5rem 1rem;
+}
+
+table tbody tr{
+    border-bottom: thin solid #dddddd;
+}
+
+table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+    color: teal;
+}
+
+.scrollable{
+    overflow:scroll;
+    height:400px;
+}
+
+.center{
+    text-align: center;
+}
+
+#data-row-col, #data-accuracy{
+    margin: 3rem 0;
+    font-weight: bolder;
+}
+
+/* scroll */
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+/* About */
+.aboutus .aboutus-content{
+    padding: 0 1rem;
+    text-align: center;
+}
+
+.row{
+    margin-top: 1rem;
+}
+
+.img-aboutus{
+    width: 100px;
+    justify-content: center;
+}
+
+.aboutus-content .row .col p{
+    margin: 0;
+    padding: 0;
+}
+
+/* Help */
+
+.help-content{
+    text-align: center;
+}
+
+.help-content a{
+    color: black;
+    font-weight: bolder;
+}
+
+/* Footer */
+.footer{
+    background-color: teal;
+    color: white;
+    flex-shrink: 0;
+    padding: 1rem;
+}
+
+.footer p{
+    font-size: 0.9rem;
+}
+
+.footer-icon a{
+    color: white;
+    size: 1.5rem;
+    padding-right: 0.5rem;
+}
+
+.footer-icon a:hover{
+    color: white;
+    text-decoration: none;
+}
