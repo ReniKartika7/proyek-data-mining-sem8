@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <!-- JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
-    <script src="javascript.js"></script>
+    <script src="/js/javascript.js"></script>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -19,7 +19,7 @@
     <!-- NAVBAR -->
     <div class="header">
         <div class="navbar navbar-expand-sm">
-            <a class="navbar-brand" href="#">DEMINERS</a>
+            <a class="navbar-brand" href="#">D-MINERS</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                 <span class="navbar-toggler-icon">
                     <i class="fas fa-bars"></i>
@@ -31,13 +31,16 @@
                         <a class="nav-link" href="#home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#statistics">Statistics</a>
+                        <a class="nav-link" href="#statistics">Stat</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#classification">Classification</a>
                     </li>    
                     <li class="nav-item">
-                        <a class="nav-link" href="#aboutus">ABout Us</a>
+                        <a class="nav-link" href="#clustering">Cluster</a>
+                    </li>    
+                    <li class="nav-item">
+                        <a class="nav-link" href="#aboutus">About Us</a>
                     </li>    
                     <li class="nav-item">
                         <a class="nav-link" href="#help">Help</a>
@@ -52,21 +55,34 @@
         <!-- Home -->
         <div class="home" id="home">
             <div class="home-up">
-                <div class="page-title">Data Prediction</div>
-                <div class="home-desc">Lorem ipsum :)</div>
+                <div class="page-title">D-Miners</div>
+                <div class="home-desc">Diabetes adalah penyakit kronis atau yang berlangsung jangka panjang yang ditandai dengan meningkatnya kadar gula darah (glukosa) hingga di atas nilai normal. 
+                    <br><br>
+                    D-Miners adalah aplikasi berbasis website yang memberikan sarana kepada user untuk memperoleh hasil analisis data pasien penderita diabetes secara instan dan akurat. 
+                    <br><br>
+                    Analisis yang dilakukan adalah analisis statistik deskriptif, analisis klaster (dengan menggunakan k-means clustering), dan analisis klasifikasi (dengan menggunakan naive bayes).
+                    <br><br>
+                </div>
                 <button class="how-to-use"><a href="#help">How to Use</a></button>
             </div>
             <div class="home-down">
-                <form action="#">
-                    <select name="method" id="method">
-                        <option value="statistics">Statistics</option>
-                        <option value="classification">Classification</option>
-                    </select>
-                    <label id="upload-show">
-                        <input type="file" id="upload-file" required>
-                        Upload File
-                    </label>
-                    <input type="submit" id="submit" name="submit" onclick="methodShow()">
+                <form action="/code" method="post" enctype="multipart/form-data" id="form-data">
+                    <div>
+                        <select name="method" id="method" onchange="methodChange(this)">
+                            <option value="statistics">Statistics</option>
+                            <option value="classification">Classification</option>
+                            <option value="clustering">Clustering</option>
+                        </select>
+                        <label id="upload-show">
+                            <input type="file" name="upload-file" id="upload-file" required>
+                            Upload File
+                        </label>
+                        <button type="button" id="submit" name="submit" onclick="methodShow()">Submit</button>
+                    </div>
+                    <div id="form-clustering">
+                        <input type="number" name="k" id="k" placeholder="k">
+                        <input type="number" name="max-iteration" id="max-iteration" placeholder="max-iteration">
+                    </div>
                 </form>
             </div>
         </div>
@@ -74,228 +90,26 @@
         <!-- Stat -->
         <div class="statistics" id="statistics">
             <div class="page-title">
-                Statistics Desctiptive
+                Statistics Descriptive
             </div>
             <div class="before-submit" id="stat-before-submit">
-                <p>You haven't insert any data. Please insert data in <a href="#home">here</a>.</p>
-                <img src="asset/stat-before.png" alt="">
+                <p>Kamu belum memasukkan data. Masukkan datamu <a href="#home">disini</a>.</p>
+                <img src="/asset/stat-before.png" alt="">
             </div>
             
             <div class="after-submit" id="stat-after-submit">
                 <!-- TAMPILIN DATA HEAD -->
                 <div class="scrollable" id="data-head">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Pregnancies</th>
-                                <th>Glucose</th>
-                                <th>BloodPressure</th>
-                                <th>SkinThickness</th>
-                                <th>Insulin</th>
-                                <th>BMI</th>
-                                <th>DiabetesPedigreeFunction</th>
-                                <th>Age</th>
-                                <th>Outcome</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                            </tr>
-                            <tr>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                            </tr>
-                            <tr>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                            </tr>
-                        </tbody>
-                    </table>
+                    
                 </div>
 
                 <!-- TAMPILIN ROW COL DATA -->
                 <div id="data-row-col">
-                    <p class="center">Your data has 167 rows and 9 columns</p>
+                    
                 </div>
 
                 <div class="scrollable" id="data-summary">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Pregnancies</th>
-                                <th>Glucose</th>
-                                <th>BloodPressure</th>
-                                <th>SkinThickness</th>
-                                <th>Insulin</th>
-                                <th>BMI</th>
-                                <th>DiabetesPedigreeFunction</th>
-                                <th>Age</th>
-                                <th>Outcome</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th>Mean</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                            </tr>
-                            <tr>
-                                <th>Median</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                            </tr>
-                            <tr>
-                                <th>Mode</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                            </tr>
-                            <tr>
-                                <th>Min</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                            </tr>
-                            <tr>
-                                <th>Max</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                            </tr>
-                            <tr>
-                                <th>Range</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                            </tr>
-                            <tr>
-                                <th>Variance</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                            </tr>
-                            <tr>
-                                <th>Stdev</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                            </tr>
-                            <tr>
-                                <th>Q1</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                                <th>3</th>
-                            </tr>
-                            <tr>
-                                <th>Q3</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                                <th>1</th>
-                            </tr>
-                            <tr>
-                                <th>Length</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                                <th>2</th>
-                            </tr>
-                        </tbody>
-                    </table>
+                    
                 </div>
             </div>
             
@@ -307,40 +121,40 @@
                 Classification
             </div>
             <div class="before-submit" id="class-before-submit">
-                <p>You haven't insert any data. Please insert data in <a href="#home">here</a>.</p>
-                <img src="asset/class-before.png" alt="">
+                <p>Kamu belum memasukkan data. Masukkan datamu <a href="#home">disini</a>.</p>
+                <img src="/asset/class-before.png" alt="">
             </div>
             <div class="after-submit" id="class-after-submit">
                 <div class="scrollable" id="data-prediction">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Actual</th>
-                                <th>Predicted</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th>1</th>
-                                <th>no</th>
-                                <th>no</th>
-                            </tr>
-                            <tr>
-                                <th>2</th>
-                                <th>no</th>
-                                <th>no</th>
-                            </tr>
-                            <tr>
-                                <th>3</th>
-                                <th>yes</th>
-                                <th>yes</th>
-                            </tr>
-                        </tbody>
-                    </table>
+                    
                 </div>
                 <div id="data-accuracy">
-                    <p class="center">By using naive bayes classification, the accuracy is 100 %</p>
+                    
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Clustering -->
+        <div class="clustering" id="clustering">
+            <div class="page-title">
+                Clustering
+            </div>
+            <div class="before-submit" id="cluster-before-submit">
+                <p>Kamu belum memasukkan data. Masukkan datamu <a href="#home">disini</a>.</p>
+                <img src="/asset/cluster-before.png" alt="">                
+            </div>
+            <div class="after-submit" id="cluster-after-submit">
+                <div class="scrollable" id="data-clustering">
+                    
+                </div>
+
+                <div id="cluster-centroid">
+                    Centroid :
+                    <!-- Print centroid -->
+                    <div class="scrollable">
+                    
+                    </div>
                 </div>
             </div>
         </div>
@@ -356,29 +170,29 @@
                 
                 <div class="row">
                     <div class="col">
-                        <img src="asset/male-icon.png" alt="" class="img-aboutus">
+                        <img src="/asset/male-icon.png" alt="" class="img-aboutus">
                         <p>2101634691</p>
                         <p>Gerry Lukman</p>
                     </div>
                     <div class="col">
-                        <img src="asset/female-icon.png" alt="" class="img-aboutus">
+                        <img src="/asset/female-icon.png" alt="" class="img-aboutus">
                         <p>2101652523</p>
                         <p>Caecilia Jovanna C</p>
                     </div>
                     <div class="col">
-                        <img src="asset/female-icon.png" alt="" class="img-aboutus">
+                        <img src="/asset/female-icon.png" alt="" class="img-aboutus">
                         <p>2101654440</p>
                         <p>Aurellia Vania Y B</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <img src="asset/female-icon.png" alt="" class="img-aboutus">
+                        <img src="/asset/female-icon.png" alt="" class="img-aboutus">
                         <p>2101663281</p>
                         <p>Reni Kartika</p>
                     </div>
                     <div class="col">
-                        <img src="asset/male-icon.png" alt="" class="img-aboutus">
+                        <img src="/asset/male-icon.png" alt="" class="img-aboutus">
                         <p>2101714080</p>
                         <p>Regy Mirza A</p>
                     </div>

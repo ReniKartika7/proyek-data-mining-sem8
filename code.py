@@ -3,13 +3,14 @@
 import numpy as np
 import pandas as pd
 import re
+import json
 from math import floor, ceil, sqrt, exp, pi
 from csv import reader
-from random import seed, randrange
+from random import seed, randrange, sample
 
 
 #read data yang disubmit
-data = pd.read_csv('diabetes_test.csv')
+# data = pd.read_csv('diabetes_test.csv')
 
 # Function buat tampilin data frame ke website
 def print_df(df):
@@ -28,13 +29,14 @@ def print_df(df):
 #        print('')
 
 # Tampilin data, sama jumlah row + col
-print_df(data)
+# print_df(data)
 
-print('Your data has ' + str(data.shape[0]) + ' rows and ' + str(data.shape[1]) + ' columns.')
+# print('Your data has ' + str(data.shape[0]) + ' rows and ' + str(data.shape[1]) + ' columns.')
 
 #Function buat STATISTIKA DESKRIPTIF
 #### algoritma mean
 def summary_data(df):
+
     summary_df = pd.DataFrame(columns = df.columns, index=['Mean', 'Median', 'Mode', 'Min', 'Max', 'Range', 'Variance', 'Stdev', 'Q1', 'Q3', 'Length'])
     
     def counter(counters):
@@ -159,17 +161,22 @@ def summary_data(df):
         summary_df.loc[['Mode'],[key]] = mode
         
         summary_df.loc[['Length'],[key]] = len(value)
-    return(summary_df)
-      
-summaries = summary_data(data)
 
-print_df(summaries.reset_index())
+    return summary_df
+
+def data_shape(data):
+    shape = 'Datamu terdiri dari ' + str(data.shape[0]) + ' baris dan ' + str(data.shape[1]) + ' kolom.'
+    return shape
+      
+# summaries = summary_data(data)
+
+# print_df(summaries.reset_index())
 
 
 
 #Function buat CLASSIFICATION NAIVE BAYES
 #read data yang disubmit
-data = pd.read_csv('iris.csv')
+# data = pd.read_csv('iris.csv')
 
 #pastiin independentnya numerik semua
 def check_independent_var(df):
@@ -259,10 +266,124 @@ def naive_bayes_accuracy(df):
     accuracy = acc / len_data
     return accuracy
 
-prediction = naive_bayes(data)
+def print_naive_bayes_accuracy(prediction):
+    acc = 'Dengan menggunakan algoritma Naive Bayes, akurasi yang diperoleh adalah ' + str(round(naive_bayes_accuracy(prediction)*100,3)) + ' %'
+    return acc
 
-print_df(prediction.reset_index())
+# prediction = naive_bayes(data)
 
-acc_df = naive_bayes_accuracy(prediction)
+# print_df(prediction.reset_index())
 
-print('By using naive bayes classification, the accuracy is ' + str(round(acc_df*100,3)) + ' %')
+# acc_df = naive_bayes_accuracy(prediction)
+
+# print('By using naive bayes classification, the accuracy is ' + str(round(acc_df*100,3)) + ' %')
+
+def bubble_sort(x):
+    for i in range(len(x)):
+        for j in range(len(x) - i - 1):
+            if(x[j] > x[j+1]):
+                x[j], x[j+1] = x[j+1], x[j]
+    
+    return x
+
+def normalization(df):
+    df = df[df.columns[:-1]]
+    
+    for i in range(len(df.columns)):
+        X = df.iloc[:, i].copy().values
+        sorted_X = bubble_sort(X)
+    
+        min_X = sorted_X[0]
+        max_X = sorted_X[-1]
+    
+        df.iloc[:, i] = df.iloc[:, i].apply(lambda x: (x - min_X)/(max_X - min_X))
+
+    return df
+
+def change_data_type(df) :
+    df = normalization(df)
+    X = df.values
+
+    X = np.ndarray.tolist(X)
+    return X
+
+def define_centroids(df, k):
+    X = change_data_type(df)
+    centroids = sample(X, k)
+    return centroids
+
+def euclidean_distance(df, centroids, k):
+    X = change_data_type(df)
+    distances = []
+    
+    for c in centroids:
+        for x in X:
+            euclid = 0
+            for i in range(len(x)):
+                euclid = euclid + (x[i] - c[i])**2
+            euclid = sqrt(euclid)
+            distances.append(euclid) 
+    return(distances, X)
+
+def assign_data_to_centroid(df, centroids, k):
+    ed = euclidean_distance(df, centroids, k)
+    
+    X = ed[1]
+    distances = np.reshape(ed[0], (len(centroids), len(X)))
+    
+    X_cen = []
+    distances_min = []
+    for val in zip(* distances):
+        distances_min.append(min(val))
+        X_cen.append(np.argmin(val) + 1)
+        
+    cluster = {}
+    
+    for i in range(k):
+        cluster[i+1] = []
+    
+    for x, c in zip(X, X_cen):
+        cluster[c].append(x)
+        
+    for i, clust in enumerate(cluster):
+        reshaped = np.reshape(cluster[clust],
+                              (len(cluster[clust]), len(X[0])))
+        for j in range(len(X[0])):
+            centroids[i][j] = sum(reshaped[0:, j])/len(reshaped[0:, j])
+    
+    return X, X_cen
+
+def kmeans(df, k=3, max_iter = 150):
+    centroid_0 = define_centroids(df, k)
+    
+    P = assign_data_to_centroid(df, centroid_0, k)
+    p = [x - 1 for x in P[1]]
+    p = np.array(p)
+
+    X = np.array(P[0])
+    for _ in range(max_iter):
+        centroids = np.vstack([X[p == i, :].mean(axis=0) for i in range(k)])
+        temp = assign_data_to_centroid(df, centroids, k)[1]
+        temp = [x - 1 for x in temp]
+        temp = np.array(temp)
+        if np.array_equal(X, temp):
+            break
+        p = temp
+    
+    df1 = df.copy()
+    df1['cluster'] = p
+    
+    centroids_df = pd.DataFrame(centroids)
+    centroids_df.index = centroids_df.index.set_names('Cluster')
+    centroids_df.columns = df.columns[:-1]
+    centroids_df = centroids_df.reset_index(drop=False)
+
+    return df1, centroids_df
+
+# clustering = kmeans(df=data, k=3, max_iter=150) #ini k sama max_iternya tergantung inputan user
+
+# #df
+# print(clustering[0])
+
+# #centroid
+# print(clustering[1])

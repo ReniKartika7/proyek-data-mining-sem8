@@ -55,6 +55,11 @@ html, body{
     width: 100%;
 }
 
+.home .home-desc{
+    width: 70%;
+    margin: auto;
+}
+
 /* Home up */
 .page-title{
     font-family: "Dancing Script";
@@ -106,6 +111,11 @@ form #method, form #upload-show, form #submit{
     font-size: 0.9rem;
 }
 
+.clustering form #submit{
+    background-color: teal;
+    color: white;
+}
+
 form #upload-show{
     cursor: pointer;
     display: inline-block;
@@ -143,6 +153,10 @@ input[type="file"] {
     text-decoration: none;
     color: black;
     font-weight: bolder;
+}
+
+.before-submit img{
+    max-width: 300px;
 }
 
 .after-submit{
@@ -184,7 +198,7 @@ table tbody tr:nth-of-type(even) {
     text-align: center;
 }
 
-#data-row-col, #data-accuracy{
+#data-row-col, #data-accuracy, #cluster-centroid{
     margin: 3rem 0;
     font-weight: bolder;
 }
@@ -261,4 +275,23 @@ table tbody tr:nth-of-type(even) {
 .footer-icon a:hover{
     color: white;
     text-decoration: none;
+}
+
+#loading-screen {
+    align-items: center;
+    background-color: rgb(228 228 228 / 75%);
+    bottom: 0;
+    font-size: 10rem;
+    display: flex;
+    left: 0;
+    justify-content: center;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 99999;
+}
+
+#form-clustering {
+    display: none;
+    margin-top: 1rem;
 }
