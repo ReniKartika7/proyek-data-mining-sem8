@@ -10,8 +10,12 @@ function methodShow(){
     if(methodValue === 'clustering'){
         var k = document.getElementById('k').value;
         var maxIteration = document.getElementById('max-iteration').value;
+        
         if (isNaN(k) == true || isNaN(maxIteration) == true) {
             alert('You have to input valid k and max iteration');
+            return false;
+        }else if (k.length == 0 || maxIteration.length == 0 ) {
+            alert('You have to input k and max iteration');
             return false;
         }
     }
@@ -32,13 +36,13 @@ function methodShow(){
         return response.json();
     })
     .then(result => {
-        console.log(result);
 
         if (methodValue == 'statistics') {
 
             addTable(result.dataframe, document.querySelector('#data-head'));
 
             const descContainer = document.querySelector('#data-row-col');
+            descContainer.innerHTML = '';
             const descText = document.createElement('p');
             descText.classList.add('center');
             descText.textContent = result.description;
@@ -60,6 +64,7 @@ function methodShow(){
             }
             else {
                 const accContainer = document.querySelector('#data-accuracy');
+                accContainer.innerHTML = '';
                 const accText = document.createElement('p');
                 accText.classList.add('center');
                 accText.textContent = result.accuracy;
@@ -90,7 +95,6 @@ function methodShow(){
 
     })
     .catch(error => {
-        console.error(error);
     });
 }
 
